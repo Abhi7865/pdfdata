@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.awt.PageAttributes.MediaType;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.http.HttpHeaders;
 
 import org.hibernate.query.sqm.mutation.internal.inline.InlineDeleteHandler;
@@ -42,7 +43,7 @@ public class pdfController {
 	}
 	
 	@PostMapping("/LoanPdf")
-	public ResponseEntity<InputStreamResource> CreateCustomerPdf(@RequestBody RequestPayload requestPayload ) {
+	public ResponseEntity<InputStreamResource> CreateCustomerPdf(@RequestBody RequestPayload requestPayload ) throws IOException {
 		ByteArrayInputStream pdf= pdfService.createLoanPdf(requestPayload);
 		
 		org.springframework.http.HttpHeaders httpHeaders = new org.springframework.http.HttpHeaders();

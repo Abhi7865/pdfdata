@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import java.io.ByteArrayInputStream; 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import org.hibernate.boot.archive.internal.ByteArrayInputStreamAccess;
 import org.hibernate.engine.jdbc.Size;
@@ -41,7 +42,7 @@ public class PdfService {
 		Document document = new Document();
 		
 		
-		 PdfWriter.getInstance(document, out);
+		PdfWriter.getInstance(document, out);
 		 
 		 document.open();
 		 Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
@@ -66,10 +67,13 @@ public class PdfService {
 	}
 	
 
-	public ByteArrayInputStream createLoanPdf(com.example.demo.payload.RequestPayload requestPayload) {
+	public ByteArrayInputStream createLoanPdf(com.example.demo.payload.RequestPayload requestPayload) throws IOException {
 		
 	
-		//ByteArrayInputStream pdf=createPdf(requestPayload);
+		ByteArrayInputStream pdf=createPdf(requestPayload);
+
+byte[] data = new byte[pdf.available()];
+pdf.read(data);
 		
 		loanDatabase.setFirstName(requestPayload.getFirstName());//1
 		loanDatabase.setLastName(requestPayload.getLastName());//2
@@ -77,11 +81,11 @@ public class PdfService {
 		loanDatabase.setLoanAmount(requestPayload.getLoanAmount());//4
 		loanDatabase.setLoanNumber(requestPayload.getLoanNumber());//5
 		loanDatabase.setLoanTennure(requestPayload.getLoanTennure());//6
-//		loanDatabase.setLoanpdf(pdf.b);//7
+	    loanDatabase.setLoanpdf(data);//7
 		loanDatabase.setLoanEmi(requestPayload.getLoanEmi());//8
 		
 		loanRepository.save(loanDatabase);
-		return null;
+		return pdf;
 		
 	}
 	

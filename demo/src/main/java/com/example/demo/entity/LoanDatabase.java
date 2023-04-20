@@ -2,13 +2,15 @@ package com.example.demo.entity;
 
 import java.io.ByteArrayInputStream;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-
+@Component
 @Entity
 @Table(name = "LoanDatabase")
 public class LoanDatabase {
